@@ -72,36 +72,36 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
         $this->order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $amount = $this->currency->format($this->order_info['total'], $this->order_info['currency_code'], false, false);
 
-        $this->data['paymill_amount'] = $amount;
-        $this->data['paymill_currency'] = $this->order_info['currency_code'];
-        $this->data['paymill_fullname'] = $this->order_info['firstname'] . ' ' . $this->order_info['lastname'];
-        $this->data['paymill_css'] = $this->baseUrl . '/catalog/view/theme/default/stylesheet/paymill_styles.css';
-        $this->data['paymill_iframe_css'] = $this->baseUrl . '/catalog/view/theme/default/stylesheet/paymill_iframe_styles.css';
-        $this->data['paymill_image_folder'] = $this->baseUrl . '/catalog/view/theme/default/image/extension/payment';
-        $this->data['paymill_js'] = $this->baseUrl . '/catalog/view/javascript/paymill/';
-        $this->data['paymill_publickey'] = trim($this->config->get($this->getPaymentName() . '_publickey'));
-        $this->data['paymill_debugging'] = $this->config->get($this->getPaymentName() . '_debugging');
-        $this->data['paymill_buttonSolution'] = $this->config->get($this->getPaymentName() . '_buttonSolution');
-        $this->data['button_confirm'] = $this->language->get('button_confirm');
+        $data['paymill_amount'] = $amount;
+        $data['paymill_currency'] = $this->order_info['currency_code'];
+        $data['paymill_fullname'] = $this->order_info['firstname'] . ' ' . $this->order_info['lastname'];
+        $data['paymill_css'] = $this->baseUrl . '/catalog/view/theme/default/stylesheet/paymill_styles.css';
+        $data['paymill_iframe_css'] = $this->baseUrl . '/catalog/view/theme/default/stylesheet/paymill_iframe_styles.css';
+        $data['paymill_image_folder'] = $this->baseUrl . '/catalog/view/theme/default/image/extension/payment';
+        $data['paymill_js'] = $this->baseUrl . '/catalog/view/javascript/paymill/';
+        $data['paymill_publickey'] = trim($this->config->get($this->getPaymentName() . '_publickey'));
+        $data['paymill_debugging'] = $this->config->get($this->getPaymentName() . '_debugging');
+        $data['paymill_buttonSolution'] = $this->config->get($this->getPaymentName() . '_buttonSolution');
+        $data['button_confirm'] = $this->language->get('button_confirm');
 
-        $this->language->load('payment/' . $this->getPaymentName());
-        $this->data['paymill_accountholder'] = $this->language->get('paymill_accountholder');
-        $this->data['paymill_accountnumber'] = $this->language->get('paymill_accountnumber');
-        $this->data['paymill_banknumber'] = $this->language->get('paymill_banknumber');
-        $this->data['paymill_iban'] = $this->language->get('paymill_iban');
-        $this->data['paymill_bic'] = $this->language->get('paymill_bic');
-        $this->data['paymill_cardholder'] = $this->language->get('paymill_cardholder');
-        $this->data['paymill_cardnumber'] = $this->language->get('paymill_cardnumber');
-        $this->data['paymill_cvc'] = $this->language->get('paymill_cvc');
-        $this->data['paymill_expirydate'] = $this->language->get('paymill_expirydate');
-        $this->data['paymill_description'] = $this->language->get('paymill_description');
-        $this->data['paymill_paymilllabel_cc'] = $this->language->get('paymill_paymilllabel_cc');
-        $this->data['paymill_paymilllabel_elv'] = $this->language->get('paymill_paymilllabel_elv');
-        $this->data['paymill_icon_text'] = $this->language->get('paymill_icon_text');
+        $this->language->load('extension/payment/' . $this->getPaymentName());
+        $data['paymill_accountholder'] = $this->language->get('paymill_accountholder');
+        $data['paymill_accountnumber'] = $this->language->get('paymill_accountnumber');
+        $data['paymill_banknumber'] = $this->language->get('paymill_banknumber');
+        $data['paymill_iban'] = $this->language->get('paymill_iban');
+        $data['paymill_bic'] = $this->language->get('paymill_bic');
+        $data['paymill_cardholder'] = $this->language->get('paymill_cardholder');
+        $data['paymill_cardnumber'] = $this->language->get('paymill_cardnumber');
+        $data['paymill_cvc'] = $this->language->get('paymill_cvc');
+        $data['paymill_expirydate'] = $this->language->get('paymill_expirydate');
+        $data['paymill_description'] = $this->language->get('paymill_description');
+        $data['paymill_paymilllabel_cc'] = $this->language->get('paymill_paymilllabel_cc');
+        $data['paymill_paymilllabel_elv'] = $this->language->get('paymill_paymilllabel_elv');
+        $data['paymill_icon_text'] = $this->language->get('paymill_icon_text');
 
-        $this->data['paymill_error'] = isset($this->session->data['error_message']) ? $this->session->data['error_message'] : null;
-        $this->data['paymill_javascript_error'] = $this->language->get('error_javascript');
-        $this->data['paymill_translation_fields'] = array(
+        $data['paymill_error'] = isset($this->session->data['error_message']) ? $this->session->data['error_message'] : null;
+        $data['paymill_javascript_error'] = $this->language->get('error_javascript');
+        $data['paymill_translation_fields'] = array(
             'cardholder' => $this->language->get('paymill_cardholder'),
             'cardnumber' => $this->language->get('paymill_cardnumber'),
             'expire_date' => $this->language->get('paymill_expirydate'),
@@ -109,18 +109,18 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
             'changebutton' => $this->language->get('paymill_change_button'),
             'lang' => $this->language->get('paymill_lang')
         );
-        $this->data['paymill_icon_visa'] = $this->config->get($this->getPaymentName() . '_icon_visa');
-        $this->data['paymill_icon_master'] = $this->config->get($this->getPaymentName() . '_icon_master');
-        $this->data['paymill_icon_amex'] = $this->config->get($this->getPaymentName() . '_icon_amex');
-        $this->data['paymill_icon_jcb'] = $this->config->get($this->getPaymentName() . '_icon_jcb');
-        $this->data['paymill_icon_maestro'] = $this->config->get($this->getPaymentName() . '_icon_maestro');
-        $this->data['paymill_icon_diners_club'] = $this->config->get($this->getPaymentName() . '_icon_diners_club');
-        $this->data['paymill_icon_discover'] = $this->config->get($this->getPaymentName() . '_icon_discover');
-        $this->data['paymill_icon_china_unionpay'] = $this->config->get($this->getPaymentName() . '_icon_china_unionpay');
-        $this->data['paymill_icon_dankort'] = $this->config->get($this->getPaymentName() . '_icon_dankort');
-        $this->data['paymill_icon_carta_si'] = $this->config->get($this->getPaymentName() . '_icon_carta_si');
-        $this->data['paymill_icon_carte_bleue'] = $this->config->get($this->getPaymentName() . '_icon_carte_bleue');
-        $this->data['paymill_icon'] = $this->showCreditcardIcons();
+        $data['paymill_icon_visa'] = $this->config->get($this->getPaymentName() . '_icon_visa');
+        $data['paymill_icon_master'] = $this->config->get($this->getPaymentName() . '_icon_master');
+        $data['paymill_icon_amex'] = $this->config->get($this->getPaymentName() . '_icon_amex');
+        $data['paymill_icon_jcb'] = $this->config->get($this->getPaymentName() . '_icon_jcb');
+        $data['paymill_icon_maestro'] = $this->config->get($this->getPaymentName() . '_icon_maestro');
+        $data['paymill_icon_diners_club'] = $this->config->get($this->getPaymentName() . '_icon_diners_club');
+        $data['paymill_icon_discover'] = $this->config->get($this->getPaymentName() . '_icon_discover');
+        $data['paymill_icon_china_unionpay'] = $this->config->get($this->getPaymentName() . '_icon_china_unionpay');
+        $data['paymill_icon_dankort'] = $this->config->get($this->getPaymentName() . '_icon_dankort');
+        $data['paymill_icon_carta_si'] = $this->config->get($this->getPaymentName() . '_icon_carta_si');
+        $data['paymill_icon_carte_bleue'] = $this->config->get($this->getPaymentName() . '_icon_carte_bleue');
+        $data['paymill_icon'] = $this->showCreditcardIcons();
 
 
         $table = $this->getDatabaseName();
@@ -141,31 +141,26 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
             $payment['expire_date'] = null;
         }
 
-        $this->data['paymill_prefilled'] = $payment;
+        $data['paymill_prefilled'] = $payment;
 
         if ($this->getPaymentName() == 'paymillcreditcard') {
-            $this->data['paymill_form_action'] = "index.php?route=payment/paymillcreditcard/confirm";
+            $data['paymill_form_action'] = "index.php?route=extension/payment/paymillcreditcard/confirm";
         } elseif ($this->getPaymentName() == 'paymilldirectdebit') {
-            $this->data['paymill_form_action'] = "index.php?route=payment/paymilldirectdebit/confirm";
+            $data['paymill_form_action'] = "index.php?route=extension/payment/paymilldirectdebit/confirm";
         }
 
-        $this->data['paymill_activepayment'] = $this->getPaymentName();
+        $data['paymill_activepayment'] = $this->getPaymentName();
         if($this->getPaymentName() == "paymillcreditcard" && !$this->config->get($this->getPaymentName() . '_pci')) {
-            $this->data['paymill_load_frame_fastcheckout'] = false;
+            $data['paymill_load_frame_fastcheckout'] = false;
             if(isset($payment['last4']) && isset($payment['expire_date'])) {
-                $this->data['paymill_load_frame_fastcheckout'] = true;
+                $data['paymill_load_frame_fastcheckout'] = true;
             }
-            $this->template = 'default/template/payment/paymill_pci_frame.tpl';
-            if (file_exists($this->config->get('config_template') . '/template/payment/paymill_frame.tpl')) {
-                $this->template = $this->config->get('config_template') . '/template/payment/paymill_frame.tpl';
-            }
+                return $this->load->view('extension/payment/paymill_pci_frame', $data);
+          
         } else {
-            $this->template = 'default/template/payment/paymill.tpl';
-            if (file_exists($this->config->get('config_template') . '/template/payment/paymill.tpl')) {
-                $this->template = $this->config->get('config_template') . '/template/payment/paymill.tpl';
-            }
-        }
-        $this->render();
+                      return $this->load->view('extension/payment/paymill', $data);
+           
+        }  
     }
 
     private function showCreditcardIcons()
@@ -190,6 +185,7 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
 
     public function confirm()
     {
+        error_log("\n erdha confirm", 3, "/var/tmp/my-errors.log");
         $preauth = (bool)$this->config->get($this->getPaymentName() . '_preauth');
 
 	// read transaction token from session
@@ -201,11 +197,11 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
         }
 
         $this->_logId = time();
-        $this->language->load('payment/' . $this->getPaymentName());
+        $this->language->load('extension/payment/' . $this->getPaymentName());
         // check if token present
         if (empty($paymillToken)) {
             $this->log("No paymill token was provided. Redirect to payments page.", '');
-            $this->redirect($this->url->link('checkout/checkout'));
+            $this->response->redirect($this->url->link('checkout/checkout'));
         } else {
             $this->log("Start processing payment with token.", $paymillToken);
             $this->load->model('checkout/order');
@@ -280,17 +276,20 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
             if ($result === true) {
                 $this->log("Finish order.", '');
                 $this->_saveUserData($this->customer->getId(), $paymentProcessor->getClientId(), $paymentProcessor->getPaymentId());
-
-                $this->model_checkout_order->confirm(
-                    $this->session->data['order_id'], $this->config->get('config_order_status_id'), $comment, true
-                );
+                $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $this->config->get('config_order_status_id'), $comment, true);
+                
                 $this->_updateOrderComment($this->session->data['order_id'], $comment);
+     
                 $this->_saveOrderDetails($this->session->data['order_id'], $transId, $preauthId);
-                $this->redirect($this->url->link('checkout/success'));
+
+   
+                $this->response->redirect($this->url->link('checkout/success', '', true));
+    
             } else {
+                 error_log("\n erdha error", 3, "/var/tmp/my-errors.log");
                 $responseCode = array_key_exists($paymentProcessor->getErrorCode(), $this->_response_codes) ? $this->_response_codes[$paymentProcessor->getErrorCode()] : 'unknown error';
                 $this->session->data['error_message'] = 'An error occured while processing your payment: ' . $responseCode;
-                $this->redirect($this->url->link('payment/' . $this->getPaymentName() . '/error'));
+                $this->response->redirect($this->url->link('extension/payment/' . $this->getPaymentName() . '/error'));
             }
         }
     }
@@ -332,9 +331,8 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
      * adds payday timestamp to the order comment
      */
     private function _updateOrderComment($orderId, $comment)
-    {
-        $result = $this->db->query("SELECT `comment` FROM `" . DB_PREFIX . "order` WHERE `order_id`=" . mysql_real_escape_string($orderId));
-        $this->db->query("UPDATE `" . DB_PREFIX . "order` SET `comment`='" . mysql_real_escape_string($result->row['comment']) . "\n" . $comment . "' WHERE `order_id`=" . mysql_real_escape_string($orderId));
+        $result = $this->db->query("SELECT `comment` FROM `" . DB_PREFIX . "order` WHERE `order_id`=" . $orderId);
+        $this->db->query("UPDATE `" . DB_PREFIX . "order` SET `comment`='" . $result->row['comment'] . "\n" . $comment . "' WHERE `order_id`=" . $orderId);
     }
 
     /**
@@ -356,25 +354,27 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
     {
         global $config;
         $this->language->load('payment/' . $this->getPaymentName());
-        $this->data['heading_title'] = $this->language->get('heading_title');
-        $this->data['button_viewcart'] = $this->language->get('button_viewcart');
-        $this->data['cart'] = $this->url->link('checkout/cart');
+        $data['heading_title'] = $this->language->get('heading_title');
+        $data['button_viewcart'] = $this->language->get('button_viewcart');
+        $data['cart'] = $this->url->link('checkout/cart');
 
-        $this->data['error_message'] = $this->session->data['error_message'];
-        $this->template = 'default/template/payment/paymill_error.tpl';
-        if (file_exists($this->config->get('config_template') . '/template/payment/paymill_error.tpl')) {
-            $this->template = $this->config->get('config_template') . '/template/payment/paymill_error.tpl';
+        $data['error_message'] = $this->session->data['error_message'];
+        $this->template = 'default/template/extension/payment/paymill_error.tpl';
+        if (file_exists($this->config->get('config_template') . '/template/payment/extension/paymill_error.tpl')) {
+            $this->template = $this->config->get('config_template') . '/template/extension/payment/paymill_error.tpl';
         }
 
-        $this->children = array(
-            'common/column_right',
-            'common/footer',
-            'common/column_left',
-            'common/header',
-            'payment/' . $this->session->data['payment_method']['code']
-        );
 
-        $this->response->setOutput($this->render());
+
+        $data['config_compression'] = $this->config->get('config_compression');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+
+
+     return  $this->load->view('extension/payment/'. $this->session->data['payment_method']['code'], $data);
+
     }
 
     /**
