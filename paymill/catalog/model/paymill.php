@@ -19,6 +19,7 @@ abstract class ModelPaymentPaymill extends Model
             $method_data = array(
                 'code' => $this->getPaymentName(),
                 'title' => $this->language->get('text_payment_' . $this->getPaymentName() . '_title'),
+                'terms'      => '',
                 'title_detail' => $this->language->get('text_payment_' . $this->getPaymentName() . '_detail'),
                 'sort_order' => $this->config->get($this->getPaymentName() . '_sort_order')
             );

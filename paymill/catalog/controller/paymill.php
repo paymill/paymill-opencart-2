@@ -158,7 +158,7 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
                 return $this->load->view('extension/payment/paymill_pci_frame', $data);
           
         } else {
-                      return $this->load->view('extension/payment/paymill', $data);
+                return $this->load->view('extension/payment/paymill', $data);
            
         }  
     }
@@ -331,6 +331,7 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
      * adds payday timestamp to the order comment
      */
     private function _updateOrderComment($orderId, $comment)
+    { 
         $result = $this->db->query("SELECT `comment` FROM `" . DB_PREFIX . "order` WHERE `order_id`=" . $orderId);
         $this->db->query("UPDATE `" . DB_PREFIX . "order` SET `comment`='" . $result->row['comment'] . "\n" . $comment . "' WHERE `order_id`=" . $orderId);
     }
@@ -353,27 +354,24 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
     public function error()
     {
         global $config;
-        $this->language->load('payment/' . $this->getPaymentName());
+        $this->language->load('extension/payment/' . $this->getPaymentName());
         $data['heading_title'] = $this->language->get('heading_title');
         $data['button_viewcart'] = $this->language->get('button_viewcart');
         $data['cart'] = $this->url->link('checkout/cart');
 
         $data['error_message'] = $this->session->data['error_message'];
-        $this->template = 'default/template/extension/payment/paymill_error.tpl';
-        if (file_exists($this->config->get('config_template') . '/template/payment/extension/paymill_error.tpl')) {
-            $this->template = $this->config->get('config_template') . '/template/extension/payment/paymill_error.tpl';
-        }
-
-
-
+ 
         $data['config_compression'] = $this->config->get('config_compression');
-        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['column_right'] = $this->load->controller('common/column_right');
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
 
-     return  $this->load->view('extension/payment/'. $this->session->data['payment_method']['code'], $data);
+
+     return   $this->response->setOutput($this->load->view('extension/payment/paymill_error', $data));
+
+    //return    $this->response->setOutput($this->load->view('extension/payment/'. $this->getPaymentName(), $data));
 
     }
 
