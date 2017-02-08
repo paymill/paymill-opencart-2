@@ -66,7 +66,7 @@ abstract class ControllerPaymentPaymill extends Controller
 
         $this->data['breadcrumbs'] = $this->getBreadcrumbs();
         $this->data['heading_title'] = $this->language->get('heading_title') . " (" . $this->getVersion() . ")";
-        $this->data['paymill_image_folder'] = '/catalog/view/theme/default/image/payment';
+        $this->data['paymill_image_folder'] = '/catalog/view/theme/default/image/extension/payment';
 
         $this->data['text_enabled'] = $this->language->get('text_enabled');
         $this->data['text_disabled'] = $this->language->get('text_disabled');
