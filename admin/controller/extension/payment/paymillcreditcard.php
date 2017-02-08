@@ -2,12 +2,16 @@
 
 require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/paymill/admin/controller/paymill.php';
 
-class ControllerPaymentPaymillcreditcard extends ControllerPaymentPaymill
+class ControllerExtensionPaymentPaymillcreditcard extends ControllerPaymentPaymill
 {
 
     protected function getPaymentName()
     {
         return 'paymillcreditcard';
+    }
+
+    public function index(){
+        parent::index();
     }
 
     public function install()

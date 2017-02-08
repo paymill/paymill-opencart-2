@@ -10,7 +10,7 @@ abstract class ModelPaymentPaymill extends Model
 
     public function getMethod()
     {
-        $this->load->language('payment/' . $this->getPaymentName());
+        $this->load->language('extension/payment/' . $this->getPaymentName());
         $method_data = array();
         $publicKey = $this->config->get($this->getPaymentName() . '_publickey');
         $privateKey = $this->config->get($this->getPaymentName() . '_privatekey');

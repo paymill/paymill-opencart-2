@@ -1,7 +1,7 @@
 <?php
 require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/paymill/catalog/controller/paymill.php';
 
-class ControllerPaymentPaymillcreditcard extends ControllerPaymentPaymill
+class ControllerExtensionPaymentPaymillcreditcard extends ControllerPaymentPaymill
 {
     protected function getPaymentName()
     {

@@ -8,6 +8,7 @@ class ControllercustompaymillLogging extends Controller
 
     private function getPost($name, $default = null)
     {
+         error_log("\n erdha ControllercustompaymillLogging", 3, "/var/tmp/my-errors.log");
         $value = $default;
         if (isset($this->request->post[$name])) {
             $value = $this->request->post[$name];

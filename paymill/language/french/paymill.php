@@ -87,3 +87,5 @@ $_["text_pci_saq_a"] = "PayFrame intégré (nécessite PCI SAQ A)";
 $_["text_pci_saq_a_ep"] = "integration direct (nécessite PCI SAQ A-EP)";
 $_["paymill_change_button"] = "Changer";
 $_["paymill_lang"] = "fr";
+$_['text_edit_paymillcreditcard']  = 'éditer Paymill CreditCard';
+$_['text_edit_paymilldirectdebit']  = 'éditer Paymill DirectDebit';
