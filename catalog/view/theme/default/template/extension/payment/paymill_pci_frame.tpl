@@ -20,14 +20,19 @@
         <form id='paymill_form' action="<?php echo $paymill_form_action; ?>" method="POST">
             <?php if($paymill_buttonSolution){ ?>
             <div class="buttons">
-                <input type="button" class="button paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+             <div class="pull-right">
+                <input type="button" class="btn btn-primary paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+                </div>
             </div>
             <?php } ?>
+
+
             <div class="debit paymill_relative paymillClearfix" id="paymillContainer">
                 <span class="paymill_loading_layer">
                     <img src="<?php echo $paymill_image_folder. '/ajax-loader.gif';?>">
                 </span>
             </div>
+
             <div class='paymill_icons' id="paymillIconsPaymentForm">
                 <?php
                 if($paymill_icon_visa){ echo "<img src=\"$paymill_image_folder/32x20_visa.png\">"; }
@@ -45,8 +50,11 @@
             </div>
             <?php if(!$paymill_buttonSolution){ ?>
             <div class="buttons">
-                <input type="button" class="button paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+             <div class="pull-right">
+                <input type="button" class="btn btn-primary paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+                </div>
             </div>
             <?php } ?>
         </form>
 </div>
+

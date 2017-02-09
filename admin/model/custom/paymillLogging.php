@@ -3,7 +3,7 @@
 /**
  * @copyright  Copyright (c) 2015 PAYMILL GmbH (http://www.paymill.com)
  */
-class ModelCustompaymillLogging extends Model
+class ModelCustomPaymillLogging extends Model
 {
 
     private $_pageSize = 15;

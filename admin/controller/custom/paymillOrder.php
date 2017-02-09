@@ -7,7 +7,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/paymill/lib/Servic
 require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/paymill/lib/Services/Paymill/PaymentProcessor.php';
 require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/paymill/metadata.php';
 
-class ControllercustompaymillOrder extends Controller implements Services_Paymill_LoggingInterface
+class ControllerCustomPaymillOrder extends Controller implements Services_Paymill_LoggingInterface
 {
 
     /**
@@ -94,49 +94,49 @@ class ControllercustompaymillOrder extends Controller implements Services_Paymil
         $orderId = $this->getPost('orderId', 0);
 
         $order_info = $this->model_sale_order->getOrder($orderId);
-        $this->data['breadcrumbs'] = $this->_getBreadcrumbs();
-        $this->data['data_orderId'] = '-';
-        $this->data['data_storename'] = '-';
-        $this->data['data_customer_firstname'] = '-';
-        $this->data['data_customer_lastname'] = '-';
-        $this->data['data_customer_email'] = '-';
-        $this->data['data_order_total'] = '-';
-        $this->data['data_order_date_added'] = '-';
-        $this->data['data_order_payment_method'] = '-';
-        $this->data['data_order_status'] = '-';
+        $data['breadcrumbs'] = $this->_getBreadcrumbs();
+        $data['data_orderId'] = '-';
+        $data['data_storename'] = '-';
+        $data['data_customer_firstname'] = '-';
+        $data['data_customer_lastname'] = '-';
+        $data['data_customer_email'] = '-';
+        $data['data_order_total'] = '-';
+        $data['data_order_date_added'] = '-';
+        $data['data_order_payment_method'] = '-';
+        $data['data_order_status'] = '-';
 
-        $this->data['text_order_id'] = $this->language->get('text_order_id');
-        $this->data['text_store_name'] = $this->language->get('text_store_name');
-        $this->data['text_firstname'] = $this->language->get('text_firstname');
-        $this->data['text_lastname'] = $this->language->get('text_lastname');
-        $this->data['text_email'] = $this->language->get('text_email');
-        $this->data['column_total'] = $this->language->get('column_total');
-        $this->data['text_date_added'] = $this->language->get('text_date_added');
-        $this->data['text_payment_method'] = $this->language->get('text_payment_method');
-        $this->data['text_order_status'] = $this->language->get('text_order_status');
-        $this->data['text_capture_success'] = $this->language->get('capture_success');
-        $this->data['text_capture_failure'] = $this->language->get('capture_failure');
-        $this->data['text_refund_success'] = $this->language->get('refund_success');
-        $this->data['text_refund_failure'] = $this->language->get('refund_failure');
+        $data['text_order_id'] = $this->language->get('text_order_id');
+        $data['text_store_name'] = $this->language->get('text_store_name');
+        $data['text_firstname'] = $this->language->get('text_firstname');
+        $data['text_lastname'] = $this->language->get('text_lastname');
+        $data['text_email'] = $this->language->get('text_email');
+        $data['column_total'] = $this->language->get('column_total');
+        $data['text_date_added'] = $this->language->get('text_date_added');
+        $data['text_payment_method'] = $this->language->get('text_payment_method');
+        $data['text_order_status'] = $this->language->get('text_order_status');
+        $data['text_capture_success'] = $this->language->get('capture_success');
+        $data['text_capture_failure'] = $this->language->get('capture_failure');
+        $data['text_refund_success'] = $this->language->get('refund_success');
+        $data['text_refund_failure'] = $this->language->get('refund_failure');
 
         if($order_info){
-            $this->data['data_orderId'] = $orderId;
-            $this->data['data_storename'] = $order_info['store_name'];
-            $this->data['data_customer_firstname'] = $order_info['firstname'];
-            $this->data['data_customer_lastname'] = $order_info['lastname'];
-            $this->data['data_customer_email'] = $order_info['email'];
-            $this->data['data_order_total'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value']);
-            $this->data['data_order_date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
-            $this->data['data_order_payment_method'] = $order_info['payment_method'];
+            $data['data_orderId'] = $orderId;
+            $data['data_storename'] = $order_info['store_name'];
+            $data['data_customer_firstname'] = $order_info['firstname'];
+            $data['data_customer_lastname'] = $order_info['lastname'];
+            $data['data_customer_email'] = $order_info['email'];
+            $data['data_order_total'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value']);
+            $data['data_order_date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
+            $data['data_order_payment_method'] = $order_info['payment_method'];
             $order_status_info = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
-            $this->data['data_order_status'] = $order_status_info ? $order_status_info['name']:'';
+            $data['data_order_status'] = $order_status_info ? $order_status_info['name']:'';
         }
 
         $url_capture = $this->url->link('custom/paymillOrder/capture', '', 'SSL');
-        $this->data['url_capture'] = $url_capture .'&token=' . $this->session->data['token'] . '&orderId='.$orderId;
+        $data['url_capture'] = $url_capture .'&token=' . $this->session->data['token'] . '&orderId='.$orderId;
 
         $url_refund = $this->url->link('custom/paymillOrder/refund', '', 'SSL');
-        $this->data['url_refund'] = $url_refund .'&token=' . $this->session->data['token'] . '&orderId='.$orderId;
+        $data['url_refund'] = $url_refund .'&token=' . $this->session->data['token'] . '&orderId='.$orderId;
 
         $this->response->setOutput($this->render());
     }

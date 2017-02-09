@@ -28,7 +28,7 @@ echo '</script>';
     <form id='paymill_form' action="<?php echo $paymill_form_action; ?>" method="POST">
         <?php if($paymill_buttonSolution){ ?>
         <div class="buttons">
-            <input type="submit" class="button paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+            <input type="submit" class="btn btn-primary paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
         </div>
         <?php } ?>
         <div class='paymill_error warning' style="display: none"></div>
@@ -91,7 +91,7 @@ echo '</script>';
         </div>
         <?php if(!$paymill_buttonSolution){ ?>
         <div class="buttons">
-            <input type="submit" class="button paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+            <input type="submit" class="btn btn-primary paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
         </div>
         <?php } ?>
     </form>

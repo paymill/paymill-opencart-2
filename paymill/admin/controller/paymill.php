@@ -107,7 +107,7 @@ abstract class ControllerPaymentPaymill extends Controller
         $data['button_logging'] = $this->language->get('button_logging');
         $data['action'] = $this->url->link('extension/payment/' . $this->getPaymentName(), 'token=' . $this->session->data['token'], true);
         $data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token']. '&type=payment', true);
-        $data['logging'] = $this->url->link('extension/custom/paymillLogging', 'token=' . $this->session->data['token'], true);
+        $data['logging'] = $this->url->link('custom/paymillLogging', 'token=' . $this->session->data['token'], true);
 
         $data['paymill_status'] = $this->getConfigValue($this->getPaymentName() . '_status');
         $data['paymill_publickey'] = $this->getConfigValue($this->getPaymentName() . '_publickey');
