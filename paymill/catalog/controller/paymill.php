@@ -185,7 +185,6 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
 
     public function confirm()
     {
-        error_log("\n erdha confirm", 3, "/var/tmp/my-errors.log");
         $preauth = (bool)$this->config->get($this->getPaymentName() . '_preauth');
 
 	// read transaction token from session
@@ -286,7 +285,6 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
                 $this->response->redirect($this->url->link('checkout/success', '', true));
     
             } else {
-                 error_log("\n erdha error", 3, "/var/tmp/my-errors.log");
                 $responseCode = array_key_exists($paymentProcessor->getErrorCode(), $this->_response_codes) ? $this->_response_codes[$paymentProcessor->getErrorCode()] : 'unknown error';
                 $this->session->data['error_message'] = 'An error occured while processing your payment: ' . $responseCode;
                 $this->response->redirect($this->url->link('extension/payment/' . $this->getPaymentName() . '/error'));
@@ -367,11 +365,7 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-
-
      return   $this->response->setOutput($this->load->view('extension/payment/paymill_error', $data));
-
-    //return    $this->response->setOutput($this->load->view('extension/payment/'. $this->getPaymentName(), $data));
 
     }
 

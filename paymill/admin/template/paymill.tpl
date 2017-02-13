@@ -33,7 +33,7 @@
                   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-creditcard" class="form-horizontal">   
                                           
                       <div class="form-group">
-                          <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
+                       <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
                         <div class="col-sm-10">
                           <select name="paymill_status" id="input-status" class="form-control">
                           <option value="1" <?php if ($paymill_status) { echo 'selected="selected"';}?>> <?php echo $text_enabled; ?></option>

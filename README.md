@@ -61,14 +61,22 @@ In case of any errors turn on the debug mode and logging in the PAYMILL Settings
 Open the file `admin/view/template/sale/order_info.tpl`.
 Search for the following code
 ```php
-<tr>
-    <td><?php echo $text_country; ?></td>
-    <td><?php echo $payment_country; ?></td>
-</tr>
-<tr>
-    <td><?php echo $text_payment_method; ?></td>
-    <td><?php echo $payment_method; ?></td>
-</tr>
+              <tr>
+                <td><?php echo $text_affiliate; ?>
+                  <?php if ($affiliate) { ?>
+                  (<a href="<?php echo $affiliate; ?>"><?php echo $affiliate_firstname; ?> <?php echo $affiliate_lastname; ?></a>)
+                  <?php } ?></td>
+                <td class="text-right"><?php echo $commission; ?></td>
+                <td class="text-center"><?php if ($affiliate) { ?>
+                  <?php if (!$commission_total) { ?>
+                  <button id="button-commission-add" data-loading-text="<?php echo $text_loading; ?>" data-toggle="tooltip" title="<?php echo $button_commission_add; ?>" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i></button>
+                  <?php } else { ?>
+                  <button id="button-commission-remove" data-loading-text="<?php echo $text_loading; ?>" data-toggle="tooltip" title="<?php echo $button_commission_remove; ?>" class="btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i></button>
+                  <?php } ?>
+                  <?php } else { ?>
+                  <button disabled="disabled" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i></button>
+                  <?php } ?></td>
+              </tr>
 ```
 
 Add the folowing code right atfer the previous code
@@ -96,6 +104,6 @@ public function info() {
 ```
 and add the following code below it
 ```php
-    $this->data['paymillshow'] = preg_match('/^paymill.*$/', $order_info['payment_code']);
-    $this->data['paymillURL'] = $this->url->link('custom/paymillOrder', '&token=' . $this->session->data['token'] .'&orderId='.$order_id);
+    $data['paymillshow'] = preg_match('/^paymill.*$/', $order_info['payment_code']);
+    $data['paymillURL'] = $this->url->link('custom/paymillOrder', '&token=' . $this->session->data['token'] .'&orderId='.$order_id);
 ```

@@ -1,5 +1,7 @@
 <?php echo $header; ?>
-
+<script src="view/javascript/jquery/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<link src="view/javascript/jquery/jquery-ui/jquery-ui.min.css" type="text/javascript"></link>
+<link type="text/css" href="view/javascript/jquery/jquery-ui/jquery-ui.min.css" rel="stylesheet">
 <script type="text/javascript" >
     $('document').ready(function(){
         $('#paymill_capture').click(function(){
@@ -44,29 +46,37 @@
         });
     });
 </script>
-
+<?php echo $column_left; ?>
 <div id="content">
-    <div class="breadcrumb" align="left">
-        <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
-        <?php } ?>
-    </div>
-        <div class="box">
-            <div class="left"></div>
-            <div class="right"></div>
-            <div class="heading">
-                <h1>
-                    <img src="view/image/payment.png" alt="payment icon"/>
-                    Order #<?php echo $data_orderId; ?>
-                </h1>
 
-                <div class="buttons">
-                    <a id="paymill_capture" class="button">Capture</a>
-                    <a id="paymill_refund" class="button">Refund</a>
+              <div class="page-header">
+                  <div class="container-fluid">
+                        <h1>Paymill Order Action</h1>
+             </div>
+             </div>
+
+   <div class="panel panel-default">
+              <div class="panel-heading">
+              <div class="buttons">
+                <div class="pull-right">
+                    <a id="paymill_capture" class="btn btn-primary">Capture</a>
+                    <a id="paymill_refund" class="btn btn-primary">Refund</a>
                 </div>
-            </div>
+                  </div> 
+                <div class="breadcrumb" align="left">
+                    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+                    <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+                    <?php } ?>
+                </div>
+
+               </div>
+  <div class="panel-body">
+        <div class="box">
+
             <div class="content">
-                <table class="form">
+                    <div class="table-responsive"> 
+                <table class="table table-bordered table-hover">
+                <tbody>
                     <tr>
                         <td><?php echo $text_order_id; ?></td>
                         <td><?php echo $data_orderId; ?></td>
@@ -103,9 +113,15 @@
                         <td><?php echo $text_order_status; ?></td>
                         <td><?php echo $data_order_status; ?></td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
+            </div>
         </div>
+    </div>
+    <div id="dialog-message"></div>
+    </div>
 </div>
-<div id="dialog-message"></div>
+
+
 <?php echo $footer; ?>

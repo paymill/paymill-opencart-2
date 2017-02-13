@@ -30,6 +30,7 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
      */
     private $paymillRefund;
 
+
     /**
      * @var string
      */
@@ -43,13 +44,13 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
         $orderIdUrl = is_null($orderId)?'':'&order_id='.$orderId;
         $breadcrumbs = array();
         $breadcrumbs[] = array(
-            'href' => $this->url->link('common/home', '&token=' . $this->session->data['token']),
+            'href' => $this->url->link('common/home', 'token=' . $this->session->data['token'],true),
             'text' => $this->language->get('text_home'),
             'separator' => FALSE
         );
 
         $breadcrumbs[] = array(
-            'href' => $this->url->link('sale/order/info', '&token=' . $this->session->data['token'].$orderIdUrl),
+            'href' => $this->url->link('sale/order/info', 'token=' . $this->session->data['token'].$orderIdUrl, true),
             'text' => $this->language->get('heading_title'),
             'separator' => ' :: '
         );
@@ -85,11 +86,7 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
         $this->load->model('localisation/order_status');
         $this->load->language('sale/order');
         $this->load->language('custom/paymillOrder');
-        $this->template = 'custom/paymillOrder.tpl';
-        $this->children = array(
-            'common/header',
-            'common/footer'
-        );
+   
 
         $orderId = $this->getPost('orderId', 0);
 
@@ -106,14 +103,14 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
         $data['data_order_status'] = '-';
 
         $data['text_order_id'] = $this->language->get('text_order_id');
-        $data['text_store_name'] = $this->language->get('text_store_name');
-        $data['text_firstname'] = $this->language->get('text_firstname');
-        $data['text_lastname'] = $this->language->get('text_lastname');
+        $data['text_store_name'] = $this->language->get('entry_store');
+        $data['text_firstname'] = $this->language->get('entry_firstname');
+        $data['text_lastname'] = $this->language->get('entry_lastname');
         $data['text_email'] = $this->language->get('text_email');
         $data['column_total'] = $this->language->get('column_total');
         $data['text_date_added'] = $this->language->get('text_date_added');
         $data['text_payment_method'] = $this->language->get('text_payment_method');
-        $data['text_order_status'] = $this->language->get('text_order_status');
+        $data['text_order_status'] = $this->language->get('entry_order_status');
         $data['text_capture_success'] = $this->language->get('capture_success');
         $data['text_capture_failure'] = $this->language->get('capture_failure');
         $data['text_refund_success'] = $this->language->get('refund_success');
@@ -138,7 +135,14 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
         $url_refund = $this->url->link('custom/paymillOrder/refund', '', 'SSL');
         $data['url_refund'] = $url_refund .'&token=' . $this->session->data['token'] . '&orderId='.$orderId;
 
-        $this->response->setOutput($this->render());
+
+        $data['header'] = $this->load->controller('common/header');
+        $data['footer'] = $this->load->controller('common/footer');
+        $data['column_left'] = $this->load->controller('common/column_left');
+
+      return   $this->response->setOutput($this->load->view('custom/paymillOrder', $data));
+
+
     }
 
     public function capture(){
@@ -157,6 +161,7 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
         $this->load->model('sale/order');
         $orderId = $this->getPost('orderId', 0);
         $preauth = $this->paymillPreauth->getOne($preauth_id);
+            error_log("\n   hyra  1 " . print_r($preauth, 1) , 3, "/var/tmp/my-errors.log");
         if(is_array($preauth)){
             $this->paymillProcessor->setAmount($preauth['amount']);
             $this->paymillProcessor->setCurrency($preauth['currency']);
@@ -168,7 +173,7 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
                 $this->log('Capture successfully', $this->paymillProcessor->getTransactionId());
                 $this->saveTransactionId($orderId, $this->paymillProcessor->getTransactionId());
                 $orderStatusId = $this->db->query('SELECT `order_status_id` FROM `' . DB_PREFIX . 'order_status` WHERE `name`= "Complete"')->row['order_status_id'];
-                $this->model_sale_order->addOrderHistory($orderId, array(
+                $this->addOrderHistory($orderId, array(
                     'order_status_id' => $orderStatusId,
                     'notify' => false,
                     'comment' => ''
@@ -177,11 +182,11 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
                 $result = false;
             }
         }
-
         return $result;
     }
 
     public function refund(){
+ 
         $result = false;
         $orderId = $this->getPost('orderId', 0);
         $details = $this->getOrderDetails($orderId);
@@ -194,7 +199,6 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
     private function proceedRefund($transactionId){
         $result = false;
         $this->init();
-        $this->load->model('sale/order');
         $orderId = $this->getPost('orderId', 0);
         $transaction = $this->paymillTransaction->getOne($transactionId);
         $this->log('Transaction used for Refund', var_export($transaction, true));
@@ -209,17 +213,87 @@ class ControllerCustomPaymillOrder extends Controller implements Services_Paymil
                 $this->log('Refund resulted in', var_export($result,true));
                 $this->log('Refund successfully', $transaction['id']);
                 $orderStatusId = $this->db->query('SELECT `order_status_id` FROM `' . DB_PREFIX . 'order_status` WHERE `name`= "Refunded"')->row['order_status_id'];
-                $this->model_sale_order->addOrderHistory($orderId, array(
+                 $this->addOrderHistory($orderId, array(
                     'order_status_id' => $orderStatusId,
                     'notify' => true,
                     'comment' => ''
                 ));
             } catch (Exception $ex) {
                 $result = false;
+                         
             }
+
         }
         return $result;
+        
     }
+
+    private function addOrderHistory($order_id, $data) {
+    
+      $this->load->model('sale/order');
+        $this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int)$data['order_status_id'] . "', date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
+
+        $this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id . "', order_status_id = '" . (int)$data['order_status_id'] . "', notify = '" . (isset($data['notify']) ? (int)$data['notify'] : 0) . "', comment = '" . $this->db->escape(strip_tags($data['comment'])) . "', date_added = NOW()");
+
+        $order_info = $this->model_sale_order->getOrder($order_id);
+
+        // Send out any gift voucher mails
+        if ($this->config->get('config_complete_status_id') == $data['order_status_id']) {
+            $this->load->model('sale/voucher');
+
+            $results = $this->getOrderVouchers($order_id);
+            
+            foreach ($results as $result) {
+                $this->model_sale_voucher->sendVoucher($result['voucher_id']);
+            }
+        }
+
+        if ($data['notify']) {
+              
+            $language = new Language();
+            $language->load('mail/order');
+
+            $subject = sprintf($language->get('text_subject'), $order_info['store_name'], $order_id);
+
+            $message  = $language->get('text_order') . ' ' . $order_id . "\n";
+            $message .= $language->get('text_date_added') . ' ' . date($language->get('date_format_short'), strtotime($order_info['date_added'])) . "\n\n";
+            
+            $order_status_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE order_status_id = '" . (int)$data['order_status_id'] . "' AND language_id = '" . (int)$order_info['language_id'] . "'");
+                
+            if ($order_status_query->num_rows) {
+                $message .= $language->get('text_order_status') . "\n";
+                $message .= $order_status_query->row['name'] . "\n\n";
+            }
+            
+            if ($order_info['customer_id']) {
+                $message .= $language->get('text_link') . "\n";
+                $message .= html_entity_decode($order_info['store_url'] . 'index.php?route=account/order/info&order_id=' . $order_id, ENT_QUOTES, 'UTF-8') . "\n\n";
+            }
+            
+            if ($data['comment']) {
+                $message .= $language->get('text_comment') . "\n\n";
+                $message .= strip_tags(html_entity_decode($data['comment'], ENT_QUOTES, 'UTF-8')) . "\n\n";
+            }
+
+            $message .= $language->get('text_footer');
+
+            $mail = new Mail();
+            $mail->protocol = $this->config->get('config_mail_protocol');
+            $mail->parameter = $this->config->get('config_mail_parameter');
+            $mail->hostname = $this->config->get('config_smtp_host');
+            $mail->username = $this->config->get('config_smtp_username');
+            $mail->password = $this->config->get('config_smtp_password');
+            $mail->port = $this->config->get('config_smtp_port');
+            $mail->timeout = $this->config->get('config_smtp_timeout');
+            $mail->setTo($order_info['email']);
+            $mail->setFrom($this->config->get('config_email'));
+            $mail->setSender($order_info['store_name']);
+            $mail->setSubject(html_entity_decode($subject, ENT_QUOTES, 'UTF-8'));
+            $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+            $mail->send();
+        }
+    }
+   
 
     private function getOrderDetails($orderId){
         $where = 'WHERE order_id ='. $this->db->escape($orderId);

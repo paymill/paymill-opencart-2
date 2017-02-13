@@ -15,10 +15,9 @@
               </div>
 
 
-
             <link rel="stylesheet" type="text/css" href="<?php echo $paymillCSS; ?>" />
             <script type="text/javascript" src="<?php echo $paymillJS; ?>"></script>
-
+        <form method="POST" action="<?php echo $paymillAction;?>" enctype="multipart/form-data" id="paymillForm">
     <div class="container-fluid">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -27,7 +26,7 @@
                             <input type="search" name="searchValue" value="<?php echo $paymillInputSearch;?>" class="form-control">
                                  </div>
                                  <div class="col-sm-2">
-                            <input type="checkbox" name="connectedSearch" <?php if($paymillCheckboxConnectedSearch == "on"){ echo "checked"; }?> > <?php echo $paymillCheckboxConnectedSearch; ?>
+                            <input type="checkbox" class="checkbox" name="connectedSearch" <?php if($paymillCheckboxConnectedSearch == "on"){ echo "checked"; }?> > <?php echo $paymillCheckboxConnectedSearch; ?>
                                   </div>
                                  <div class="col-sm-1">
                                   <input type='number' id='paymillGoToPage' min='0' max='<?php echo $paymillPageMax;?>' value='<?php echo $paymillPage;?>'> / <?php echo $paymillPageMax;?>
@@ -45,22 +44,20 @@
                              <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a>
                             </div>
                       </div>
-                          
-
-
-                 
                 </div>
+
+
             <div class="panel-body">
-                 <form method="POST" action="<?php echo $paymillAction;?>" enctype="multipart/form-data" id="paymillForm">
+         
                         <input type='hidden' name='page' value='<?php echo $paymillPage; ?>'/>
                         <div class="box">
                             <div class="content">
-                                 <div class="table-responsive"
->                                <table class="list">
+                               <div class="table-responsive"> 
+                                  <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <td width="1" style="text-align: center;">
-                                                <input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);">
+                                                <input type="checkbox" class="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);">
                                             </td>
                                             <td class="left"><?php echo $paymillTableHeadDate; ?></td>
                                             <td class="left"><?php echo $paymillTableHeadID; ?></td>
@@ -68,10 +65,11 @@
                                             <td class="left"><?php echo $paymillTableHeadDebug; ?></td>
                                         </tr>
                                     </thead>
+                                    <tbody>
                                     <?php foreach($paymillEntries as $id => $row){ ?>
                                     <tr>
                                         <td style="text-align: center;">
-                                            <input type="checkbox" name="selected[]" value="<?php echo $row['id']; ?>">
+                                            <input type="checkbox" class="checkbox " name="selected[]" value="<?php echo $row['id']; ?>">
                                         </td>
                                         <td class="left"><?php echo $row['date']; ?></td>
                                         <td class="left"><?php echo $row['identifier']; ?></td>
@@ -80,7 +78,7 @@
                                         <td class="left">
 
                                             <?php
-                                            echo "<a onclick='showDetails(\"".urlencode($row['debug'])."\");' class='btn btn-default'>";
+                                            echo "<a onclick='showDetails(\"".urlencode($row['debug'])."\");' class='btn btn-primary'>";
                                             echo "<span>$paymillTableShowDetails</span>";
                                             echo "</a>";
                                             ?>
@@ -90,8 +88,9 @@
                                         <?php } ?>
                                     </tr>
                                     <?php } ?>
+                                    </tbody>
                                 </table>
-                                <table class="list" id="paymillDetail">
+                                <table class="table table-bordered table-hover" id="paymillDetail">
                                     <thead>
                                         <tr>
                                             <td><?php echo $paymillTableHeadDetail; ?></td>

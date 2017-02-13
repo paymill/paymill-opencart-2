@@ -18,6 +18,7 @@ class ModelCustomPaymillLogging extends Model
     public function setSearchValue($string)
     {
         $this->_searchValue = $string;
+
     }
 
     public function setConnectedSearch($string)
@@ -25,16 +26,18 @@ class ModelCustomPaymillLogging extends Model
         $this->_connectedSearch = $string === "on";
     }
 
-    public function getTotal()
-    {
+    public function getTotal($string)
+    {   
+        $this->_searchValue = $string;
         $sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "pigmbh_paymill_logging`";
         $where = $this->_getWhereForSearch();
         $query = $this->db->query($sql . $where);
         return (int) $query->row["total"];
     }
 
-    public function getEntries($page)
-    {
+    public function getEntries($page, $string)
+    {  
+        $this->_searchValue = $string;
         $sql = "SELECT * FROM `" . DB_PREFIX . "pigmbh_paymill_logging`";
         $where = $this->_getWhereForSearch();
         $limit = '';
@@ -49,7 +52,7 @@ class ModelCustomPaymillLogging extends Model
     }
 
     private function _getWhereForSearch()
-    {
+    {   
         $where = ' WHERE `date` LIKE "%' . $this->_searchValue . '%"'
             . ' OR `message` LIKE "%' . $this->_searchValue . '%"'
             . ' OR `debug` LIKE "%' . $this->_searchValue . '%"'

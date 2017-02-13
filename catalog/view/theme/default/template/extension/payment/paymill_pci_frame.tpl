@@ -15,9 +15,8 @@
 ?>
 
 <script type="text/javascript" src="<?php echo $paymill_js; ?>/checkout_iframe.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $paymill_iframe_css; ?>" />
-<div class="right">
-        <form id='paymill_form' action="<?php echo $paymill_form_action; ?>" method="POST">
+<div class="pull-right">
+        <form id='paymill_form' class="form-horizontal" action="<?php echo $paymill_form_action; ?>" method="POST">
             <?php if($paymill_buttonSolution){ ?>
             <div class="buttons">
              <div class="pull-right">
@@ -57,4 +56,5 @@
             <?php } ?>
         </form>
 </div>
+
 

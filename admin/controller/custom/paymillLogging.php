@@ -37,11 +37,11 @@ class ControllerCustomPaymillLogging extends Controller
 
         $this->model_custom_paymillLogging->setSearchValue($searchValue);
         $this->model_custom_paymillLogging->setConnectedSearch($connectedSearch);
-        $data['paymillEntries'] = $this->model_custom_paymillLogging->getEntries($actualPage);
+        $data['paymillEntries'] = $this->model_custom_paymillLogging->getEntries($actualPage,$searchValue);
         $data['paymillInputSearch'] = $searchValue;
         $data['paymillCheckboxConnectedSearch'] = $connectedSearch;
 
-        $maxPages = (int)floor($this->model_custom_paymillLogging->getTotal() / $this->model_custom_paymillLogging->getPageSize());
+        $maxPages = (int)floor($this->model_custom_paymillLogging->getTotal($searchValue) / $this->model_custom_paymillLogging->getPageSize());
 
         $data['paymillPage'] = $actualPage;
         $data['paymillPageMax'] = $maxPages;
