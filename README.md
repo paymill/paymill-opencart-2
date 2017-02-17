@@ -1,7 +1,7 @@
 PAYMILL-OpenCart Extension for credit card and direct debit payments
 ====================
 
-PAYMILL extension is compatible with: 1.5.4, 1.5.4.1, 1.5.5.1, 1.5.6 (tested for 1.5.4.1 and 1.5.5.1). This extension installs two payment methods: Credit card and direct debit.
+PAYMILL extension is compatible with: 2.3.0.0 , 2.3.0.1, 2.3.0.2 (tested for 2.3.0.2). This extension installs two payment methods: Credit card and direct debit.
 
 ## Your Advantages
 * PCI DSS compatibility
