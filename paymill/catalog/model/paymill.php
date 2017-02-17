@@ -6,26 +6,30 @@
 abstract class ModelPaymentPaymill extends Model
 {
 
-    abstract protected function getPaymentName();
+    abstract protected function getPaymentName ();
 
-    public function getMethod()
+    public function getMethod ()
     {
         $this->load->language('extension/payment/' . $this->getPaymentName());
         $method_data = array();
         $publicKey = $this->config->get($this->getPaymentName() . '_publickey');
-        $privateKey = $this->config->get($this->getPaymentName() . '_privatekey');
+        $privateKey = $this->config->get(
+                $this->getPaymentName() . '_privatekey');
         
-        if ($this->config->get($this->getPaymentName() . '_status') && !(empty($publicKey) || empty($privateKey))) {
+        if ($this->config->get($this->getPaymentName() . '_status') &&
+                 ! (empty($publicKey) || empty($privateKey))) {
             $method_data = array(
-                'code' => $this->getPaymentName(),
-                'title' => $this->language->get('text_payment_' . $this->getPaymentName() . '_title'),
-                'terms'      => '',
-                'title_detail' => $this->language->get('text_payment_' . $this->getPaymentName() . '_detail'),
-                'sort_order' => $this->config->get($this->getPaymentName() . '_sort_order')
+                    'code' => $this->getPaymentName(),
+                    'title' => $this->language->get(
+                            'text_payment_' . $this->getPaymentName() . '_title'),
+                    'terms' => '',
+                    'title_detail' => $this->language->get(
+                            'text_payment_' . $this->getPaymentName() . '_detail'),
+                    'sort_order' => $this->config->get(
+                            $this->getPaymentName() . '_sort_order')
             );
         }
-
+        
         return $method_data;
     }
-
 }

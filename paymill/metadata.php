@@ -5,9 +5,10 @@
  */
 class metadata
 {
+
     private $_version = "2.3.0";
 
-    public function getVersion()
+    public function getVersion ()
     {
         return $this->_version;
     }

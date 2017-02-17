@@ -1,26 +1,25 @@
 #paymill_form {
-    text-align: right;
+	text-align: right;
 }
 
-#paymillContainer{
-    float: right;
-    width: 385px;
+#paymillContainer {
+	float: right;
+	width: 385px;
 }
 
-#paymillIconsPaymentForm{
-    float: right;
-    width: 385px;
+#paymillIconsPaymentForm {
+	float: right;
+	width: 385px;
 }
-
 
 #paymillTable {
-    width: 100%;
+	width: 100%;
 }
 
 .paymillClearfix:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
