@@ -140,7 +140,7 @@ abstract class ControllerPaymentPaymill extends Controller implements Services_P
         } else {
             $payment['expire_date'] = null;
         }
-
+        $payment['email'] =   $this->customer->getEmail();
         $data['paymill_prefilled'] = $payment;
 
         if ($this->getPaymentName() == 'paymillcreditcard') {

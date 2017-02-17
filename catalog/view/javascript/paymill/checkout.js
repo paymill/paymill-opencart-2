@@ -53,7 +53,8 @@ $(document).ready(function() {
                             exp_year: $("#paymill_card_expiry_date").val().split("/")[1],
                             cvc: $('#paymill_card_cvc').val(),
                             amount_int: PAYMILL_AMOUNT,
-                            currency: PAYMILL_CURRENCY
+                            currency: PAYMILL_CURRENCY,
+                            email: $('#paymill_customer_email').val()
                         };
                     } else if (PAYMILL_PAYMENT === "paymilldirectdebit") {
                         if (isSepa()) {
