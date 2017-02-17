@@ -181,7 +181,7 @@ abstract class ControllerPaymentPaymill extends Controller implements
         } else {
             $payment['expire_date'] = null;
         }
-        $payment['email'] =   $this->customer->getEmail();
+        $payment['email'] = $this->customer->getEmail();
         $data['paymill_prefilled'] = $payment;
         
         if ($this->getPaymentName() == 'paymillcreditcard') {
@@ -441,7 +441,7 @@ abstract class ControllerPaymentPaymill extends Controller implements
 
     /**
      * Logger for events
-     * 
+     *
      * @return void
      */
     public function log ($message, $debuginfo)
@@ -458,7 +458,7 @@ abstract class ControllerPaymentPaymill extends Controller implements
 
     /**
      * Shows the Errorpage and a message for the customer
-     * 
+     *
      * @param string $message            
      */
     public function error ()

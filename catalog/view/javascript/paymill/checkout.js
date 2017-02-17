@@ -52,53 +52,90 @@ $(document)
 										var formdata = new Array();
 										formdata = getFormData(formdata, false);
 
-        if (prefilled.toString() === formdata.toString()) {
-            $("#paymill_form").append("<input type='hidden' name='paymillFastcheckout' value='" + true + "'/>");
-            result = new Object();
-            result.token = 'dummyToken';
-            PaymillResponseHandler(null, result);
-        } else {
-            if (validate()) {
-                $("#paymill_form").append("<input type='hidden' name='paymillFastcheckout' value='" + false + "'/>");
-                try {
-                    var params;
-                    if (PAYMILL_PAYMENT === "paymillcreditcard") {
-                        params = {
-                            number: $('#paymill_card_number').val(),
-                            cardholder: $('#paymill_card_holder').val(),
-                            exp_month: $("#paymill_card_expiry_date").val().split("/")[0],
-                            exp_year: $("#paymill_card_expiry_date").val().split("/")[1],
-                            cvc: $('#paymill_card_cvc').val(),
-                            amount_int: PAYMILL_AMOUNT,
-                            currency: PAYMILL_CURRENCY,
-                            email: $('#paymill_customer_email').val()
-                        };
-                    } else if (PAYMILL_PAYMENT === "paymilldirectdebit") {
-                        if (isSepa()) {
-                            params = {
-                                iban: $('#paymill_iban').val(),
-                                bic: $('#paymill_bic').val(),
-                                accountholder: $('#paymill_accountholder').val()
-                            };
-                        } else {
-                            params = {
-                                number: $('#paymill_iban').val(),
-                                bank: $('#paymill_bic').val(),
-                                accountholder: $('#paymill_accountholder').val()
-                            };
-                        }
-                    }
-                    debug("Params, see below");
-                    console.log(params);
-                    paymill.createToken(params, PaymillResponseHandler);
-                } catch (e) {
-                    alert("Ein Fehler ist aufgetreten: " + e);
-                }
-            }
-        }
-        return false;
-    });
-});
+										if (prefilled.toString() === formdata
+												.toString()) {
+											$("#paymill_form").append(
+													"<input type='hidden' name='paymillFastcheckout' value='"
+															+ true + "'/>");
+											result = new Object();
+											result.token = 'dummyToken';
+											PaymillResponseHandler(null, result);
+										} else {
+											if (validate()) {
+												$("#paymill_form")
+														.append(
+																"<input type='hidden' name='paymillFastcheckout' value='"
+																		+ false
+																		+ "'/>");
+												try {
+													var params;
+													if (PAYMILL_PAYMENT === "paymillcreditcard") {
+														params = {
+															number : $(
+																	'#paymill_card_number')
+																	.val(),
+															cardholder : $(
+																	'#paymill_card_holder')
+																	.val(),
+															exp_month : $(
+																	"#paymill_card_expiry_date")
+																	.val()
+																	.split("/")[0],
+															exp_year : $(
+																	"#paymill_card_expiry_date")
+																	.val()
+																	.split("/")[1],
+															cvc : $(
+																	'#paymill_card_cvc')
+																	.val(),
+															amount_int : PAYMILL_AMOUNT,
+															currency : PAYMILL_CURRENCY,
+															email : $(
+																	'#paymill_customer_email')
+																	.val()
+														};
+													} else if (PAYMILL_PAYMENT === "paymilldirectdebit") {
+														if (isSepa()) {
+															params = {
+																iban : $(
+																		'#paymill_iban')
+																		.val(),
+																bic : $(
+																		'#paymill_bic')
+																		.val(),
+																accountholder : $(
+																		'#paymill_accountholder')
+																		.val()
+															};
+														} else {
+															params = {
+																number : $(
+																		'#paymill_iban')
+																		.val(),
+																bank : $(
+																		'#paymill_bic')
+																		.val(),
+																accountholder : $(
+																		'#paymill_accountholder')
+																		.val()
+															};
+														}
+													}
+													debug("Params, see below");
+													console.log(params);
+													paymill
+															.createToken(
+																	params,
+																	PaymillResponseHandler);
+												} catch (e) {
+													alert("Ein Fehler ist aufgetreten: "
+															+ e);
+												}
+											}
+										}
+										return false;
+									});
+				});
 
 function getFormData(array, ignoreEmptyValues) {
 	$('#paymill_form :input').not('[type=hidden]').each(function() {
@@ -208,7 +245,8 @@ function PaymillResponseHandler(error, result) {
 			alert("API returned error(raw):" + error.apierror);
 		}
 		debug("API returned error:" + error.apierror);
-		$(".checkout-heading").children('a :last').click(); //click on step5 Modify
+		$(".checkout-heading").children('a :last').click(); // click on step5
+		// Modify
 	} else {
 		debug("Received token from Paymill API: " + result.token);
 		var form = $("#paymill_form");
