@@ -25,7 +25,7 @@
             </div>
             <?php } ?>
 
-
+             <input type="hidden" id="paymill_customer_email" value="<?php echo isset($paymill_prefilled['email'])? $paymill_prefilled['email']:'';?>"/>
             <div class="debit paymill_relative paymillClearfix" id="paymillContainer">
                 <span class="paymill_loading_layer">
                     <img src="<?php echo $paymill_image_folder. '/ajax-loader.gif';?>">

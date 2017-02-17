@@ -49,6 +49,7 @@ echo '</script>';
                 <label for="paymill_card_cvc" class="field-right"><?php echo $paymill_cvc;?>*</label>
                 <input id="paymill_card_cvc" type="text" autocomplete="off" class="field-right" value="<?php echo isset($paymill_prefilled['id'])?'***':'' ?>"/>
             </fieldset>
+            <input type="hidden" id="paymill_customer_email" value="<?php echo isset($paymill_prefilled['email'])? $paymill_prefilled['email']:'';?>"/>
             <p class="description"><?php echo $paymill_description;?></p>
             <div class='paymill_icons'>
                 <?php

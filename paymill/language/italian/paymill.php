@@ -71,6 +71,7 @@ $_["error_javascript"] = array(
 		"field_invalid_bic" => "Invalid BIC",
 		"field_invalid_country" => "Invalid country for sepa transactions",
 		"field_invalid_bank_data" => "Invalid bank data",
+		"field_invalid_email" => "Invalid e-mail for this account"
 	)
 );
 $_["paymillTableHeadDate"] = "Data";
