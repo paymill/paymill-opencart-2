@@ -1,4 +1,4 @@
-PAYMILL-OpenCart Extension for credit card and direct debit payments
+PAYMILL-OpenCart 2 Extension for credit card and direct debit payments
 ====================
 
 PAYMILL extension is compatible with: 2.3.0.0 , 2.3.0.1, 2.3.0.2 (tested for 2.3.0.2). This extension installs two payment methods: Credit card and direct debit.
@@ -27,7 +27,7 @@ PAYMILL extension is compatible with: 2.3.0.0 , 2.3.0.1, 2.3.0.2 (tested for 2.3
 
 Download the complete module by using the link below:
 
-[Latest Version](https://github.com/Paymill/Paymill-OpenCart/archive/master.zip)
+[Latest Version](https://github.com/Paymill/paymill-opencart-2/archive/master.zip)
 
 ######Please note that Github will add an additional folder.
 To install the extension merge the content of the folder `paymill-opencart-master` with your Opencart installation.
