@@ -191,9 +191,9 @@
   $('#input-preauth').on('change',function(){
 	var selection = $(this).val();
 	if(selection == '1')
-	$('#paymill_preauth_div').show();
+		$('#paymill_preauth_div').show();
 	else 
-	$('#paymill_preauth_div').hide();
+		$('#paymill_preauth_div').hide();
   });
   </script>
   <?php echo $footer; ?>
