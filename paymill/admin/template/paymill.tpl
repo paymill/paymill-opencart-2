@@ -189,11 +189,11 @@
   </div>
   <script>
   $('#input-preauth').on('change',function(){
-    var selection = $(this).val();
+	var selection = $(this).val();
     switch(selection){
-      case '1' : $('#paymill_preauth_div').show();
-      break;
-     default : $('#paymill_preauth_div').hide();
+		case '1' : $('#paymill_preauth_div').show();
+			break;
+		default : $('#paymill_preauth_div').hide();
     }
   });
   </script>
