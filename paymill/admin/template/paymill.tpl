@@ -190,11 +190,10 @@
   <script>
   $('#input-preauth').on('change',function(){
 	var selection = $(this).val();
-    switch(selection){
-		case '1' : $('#paymill_preauth_div').show();
-			break;
-		default : $('#paymill_preauth_div').hide();
-    }
+	if(selection == '1')
+	$('#paymill_preauth_div').show();
+	else 
+	$('#paymill_preauth_div').hide();
   });
   </script>
   <?php echo $footer; ?>
