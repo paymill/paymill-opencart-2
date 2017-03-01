@@ -245,10 +245,10 @@ abstract class ControllerPaymentPaymill extends Controller implements
 
     public function confirm ()
     {
-        $preauth = (bool) $this->config->get(
-                $this->getPaymentName() . '_preauth');
-        
-        // read transaction token from session
+        $preauth = (bool)$this->config->get($this->getPaymentName() . '_preauth');
+        $preauth_amount = (float)$this->config->get($this->getPaymentName() . '_preauth_amount');
+	    
+	    // read transaction token from session
         if (isset($this->request->post['paymillToken'])) {
             $paymillToken = $this->request->post['paymillToken'];
         }
@@ -324,8 +324,13 @@ abstract class ControllerPaymentPaymill extends Controller implements
                     }
                 }
             }
-            $captureNow = ! $preauth;
-            // process the payment
+
+            if(($preauth == true) && ($amount >= $preauth_amount*100))
+                $captureNow = false; 
+            else
+                $captureNow = true; 
+
+             // process the payment
             $result = $paymentProcessor->processPayment($captureNow);
             $this->log("Payment processing resulted in: ", 
                     ($result ? "Success" : "Fail"));
