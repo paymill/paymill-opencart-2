@@ -52,53 +52,30 @@ abstract class ControllerPaymentPaymill extends Controller
                 $newConfig[$this->getPaymentName() . '_pci'] = trim(
                         $this->getPostValue('paymill_pci', ''));
             }
-            $newConfig[$this->getPaymentName() . '_sort_order'] = $this->getPostValue(
-                    'paymill_sort_order', 0);
-            $newConfig[$this->getPaymentName() . '_preauth'] = $this->getPostValue(
-                    'paymill_preauth', false);
-            $newConfig[$this->getPaymentName() . '_fast_checkout'] = $this->getPostValue(
-                    'paymill_fast_checkout', false);
-            $newConfig[$this->getPaymentName() . '_logging'] = $this->getPostValue(
-                    'paymill_logging', false);
-            $newConfig[$this->getPaymentName() . '_debugging'] = $this->getPostValue(
-                    'paymill_debugging', false);
-            $newConfig[$this->getPaymentName() . '_buttonSolution'] = $this->getPostValue(
-                    'paymill_buttonSolution', false);
-            $newConfig[$this->getPaymentName() . '_sepa_date'] = $this->getPostValue(
-                    'paymill_sepa_date');
-            $newConfig[$this->getPaymentName() . '_icon_visa'] = $this->getPostValue(
-                    'icon_visa');
-            $newConfig[$this->getPaymentName() . '_icon_master'] = $this->getPostValue(
-                    'icon_master');
-            $newConfig[$this->getPaymentName() . '_icon_amex'] = $this->getPostValue(
-                    'icon_amex');
-            $newConfig[$this->getPaymentName() . '_icon_jcb'] = $this->getPostValue(
-                    'icon_jcb');
-            $newConfig[$this->getPaymentName() . '_icon_maestro'] = $this->getPostValue(
-                    'icon_maestro');
-            $newConfig[$this->getPaymentName() . '_icon_diners_club'] = $this->getPostValue(
-                    'icon_diners_club');
-            $newConfig[$this->getPaymentName() . '_icon_discover'] = $this->getPostValue(
-                    'icon_discover');
-            $newConfig[$this->getPaymentName() . '_icon_china_unionpay'] = $this->getPostValue(
-                    'icon_china_unionpay');
-            $newConfig[$this->getPaymentName() . '_icon_dankort'] = $this->getPostValue(
-                    'icon_dankort');
-            $newConfig[$this->getPaymentName() . '_icon_carta_si'] = $this->getPostValue(
-                    'icon_carta_si');
-            $newConfig[$this->getPaymentName() . '_icon_carte_bleue'] = $this->getPostValue(
-                    'icon_carte_bleue');
-            
-            $this->model_setting_setting->editSetting($this->getPaymentName(), 
-                    $newConfig);
-            $this->addPaymillWebhook(
-                    $newConfig[$this->getPaymentName() . '_privatekey']);
-            $this->session->data['success'] = $this->language->get(
-                    'text_success');
-            $this->response->redirect(
-                    $this->url->link('extension/extension', 
-                            'token=' . $this->session->data['token'] .
-                                     '&type=payment', true));
+            $newConfig[$this->getPaymentName() . '_sort_order'] = $this->getPostValue('paymill_sort_order', 0);
+            $newConfig[$this->getPaymentName() . '_preauth'] = $this->getPostValue('paymill_preauth', false);
+            $newConfig[$this->getPaymentName() . '_preauth_amount'] = $this->getPostValue('paymill_preauth_amount', false);
+            $newConfig[$this->getPaymentName() . '_fast_checkout'] = $this->getPostValue('paymill_fast_checkout', false);
+            $newConfig[$this->getPaymentName() . '_logging'] = $this->getPostValue('paymill_logging', false);
+            $newConfig[$this->getPaymentName() . '_debugging'] = $this->getPostValue('paymill_debugging', false);
+            $newConfig[$this->getPaymentName() . '_buttonSolution'] = $this->getPostValue('paymill_buttonSolution', false);
+            $newConfig[$this->getPaymentName() . '_sepa_date'] = $this->getPostValue('paymill_sepa_date');
+            $newConfig[$this->getPaymentName() . '_icon_visa'] = $this->getPostValue('icon_visa');
+            $newConfig[$this->getPaymentName() . '_icon_master'] = $this->getPostValue('icon_master');
+            $newConfig[$this->getPaymentName() . '_icon_amex'] = $this->getPostValue('icon_amex');
+            $newConfig[$this->getPaymentName() . '_icon_jcb'] = $this->getPostValue('icon_jcb');
+            $newConfig[$this->getPaymentName() . '_icon_maestro'] = $this->getPostValue('icon_maestro');
+            $newConfig[$this->getPaymentName() . '_icon_diners_club'] = $this->getPostValue('icon_diners_club');
+            $newConfig[$this->getPaymentName() . '_icon_discover'] = $this->getPostValue('icon_discover');
+            $newConfig[$this->getPaymentName() . '_icon_china_unionpay'] = $this->getPostValue('icon_china_unionpay');
+            $newConfig[$this->getPaymentName() . '_icon_dankort'] = $this->getPostValue('icon_dankort');
+            $newConfig[$this->getPaymentName() . '_icon_carta_si'] = $this->getPostValue('icon_carta_si');
+            $newConfig[$this->getPaymentName() . '_icon_carte_bleue'] = $this->getPostValue('icon_carte_bleue');
+
+            $this->model_setting_setting->editSetting($this->getPaymentName(), $newConfig);
+            $this->addPaymillWebhook($newConfig[$this->getPaymentName() . '_privatekey']);
+            $this->session->data['success'] = $this->language->get('text_success');
+            $this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true));
         }
         $data['text_edit'] = $this->language->get(
                 'text_edit_' . $this->getPaymentName());
@@ -136,6 +113,7 @@ abstract class ControllerPaymentPaymill extends Controller
         $data['entry_fast_checkout'] = $this->language->get(
                 'entry_fast_checkout');
         $data['entry_preauth'] = $this->language->get('entry_preauth');
+        $data['entry_preauth_amount'] = $this->language->get('entry_preauth_amount');
         $data['entry_logging'] = $this->language->get('entry_logging');
         $data['entry_debugging'] = $this->language->get('entry_debugging');
         $data['entry_buttonSolution'] = $this->language->get(
@@ -166,23 +144,16 @@ abstract class ControllerPaymentPaymill extends Controller
             $data['paymill_pci'] = $this->getConfigValue(
                     $this->getPaymentName() . '_pci');
         }
-        
-        $data['paymill_sort_order'] = $this->getConfigValue(
-                $this->getPaymentName() . '_sort_order');
-        $data['paymill_fast_checkout'] = $this->getConfigValue(
-                $this->getPaymentName() . '_fast_checkout');
-        $data['paymill_preauth'] = $this->getConfigValue(
-                $this->getPaymentName() . '_preauth');
-        $data['paymill_logging'] = $this->getConfigValue(
-                $this->getPaymentName() . '_logging');
-        $data['paymill_debugging'] = $this->getConfigValue(
-                $this->getPaymentName() . '_debugging');
-        $data['paymill_buttonSolution'] = $this->getConfigValue(
-                $this->getPaymentName() . '_buttonSolution');
-        $data['paymill_sepa_date'] = $this->getConfigValue(
-                $this->getPaymentName() . '_sepa_date');
-        $data['paymill_creditcardicons'] = $this->getConfigValue(
-                $this->getPaymentName() . '_creditcardicons');
+
+        $data['paymill_sort_order'] = $this->getConfigValue($this->getPaymentName() . '_sort_order');
+        $data['paymill_fast_checkout'] = $this->getConfigValue($this->getPaymentName() . '_fast_checkout');
+        $data['paymill_preauth'] = $this->getConfigValue($this->getPaymentName() . '_preauth');
+        $data['paymill_preauth_amount'] = $this->getConfigValue($this->getPaymentName() . '_preauth_amount');
+        $data['paymill_logging'] = $this->getConfigValue($this->getPaymentName() . '_logging');
+        $data['paymill_debugging'] = $this->getConfigValue($this->getPaymentName() . '_debugging');
+        $data['paymill_buttonSolution'] = $this->getConfigValue($this->getPaymentName() . '_buttonSolution');
+        $data['paymill_sepa_date'] = $this->getConfigValue($this->getPaymentName() . '_sepa_date');
+        $data['paymill_creditcardicons'] = $this->getConfigValue($this->getPaymentName() . '_creditcardicons');
         $data['paymill_payment'] = $this->getPaymentName();
         $data['paymill_icon_visa'] = $this->getConfigValue(
                 $this->getPaymentName() . '_icon_visa');
@@ -310,6 +281,7 @@ abstract class ControllerPaymentPaymill extends Controller
         $config[$this->getPaymentName() . '_sort_order'] = '1';
         $config[$this->getPaymentName() . '_fast_checkout'] = '0';
         $config[$this->getPaymentName() . '_preauth'] = '0';
+        $config[$this->getPaymentName() . '_preauth_amount'] = '0';
         $config[$this->getPaymentName() . '_different_amount'] = '0.00';
         $config[$this->getPaymentName() . '_logging'] = '1';
         $config[$this->getPaymentName() . '_debugging'] = '1';

@@ -122,6 +122,7 @@
                         </div>
                       </div>
 
+
                      <?php if($paymill_payment === 'paymilldirectdebit'){ ?>
 
                      <div class="form-group">
@@ -148,12 +149,19 @@
                        <div class="form-group">
                           <label class="col-sm-2 control-label" for="input-preauth"><?php echo $entry_preauth; ?></label>
                         <div class="col-sm-10">
-                          <select name="paymill_preauth" id="input-preauth" class="form-control">
+                          <select name="paymill_preauth" id="input-preauth" for="paymill_preauth_amount" class="form-control">
                           <option value="1" <?php if ($paymill_preauth) { echo 'selected="selected"';}?>> <?php echo $text_enabled; ?></option>
                          <option value="0" <?php if (!$paymill_preauth) { echo 'selected="selected"';}?>> <?php echo $text_disabled; ?></option>
                           </select>
                         </div>
                       </div>
+                       <div class="form-group" name="paymill_preauth_div" id="paymill_preauth_div" style="display=none;" >
+                          <label class="col-sm-2 control-label" for="input-preauth-amount"><?php echo $entry_preauth_amount; ?></label>
+                        <div class="col-sm-10">
+                        <input type="text" name="paymill_preauth_amount" value="<?php echo $paymill_preauth_amount; ?>" id="input-preauth-amount" class="form-control" />
+                        </div>
+                      </div>
+                  
 
                           <div class="form-group">
                                 <label class="col-sm-2 control-label" for="input-preauth"><?php echo $entry_specific_creditcard; ?></label>
@@ -179,5 +187,13 @@
           </div>
       </div>
   </div>
-  
+  <script>
+  $('#input-preauth').on('change',function(){
+	var selection = $(this).val();
+	if(selection == '1')
+		$('#paymill_preauth_div').show();
+	else 
+		$('#paymill_preauth_div').hide();
+  });
+  </script>
   <?php echo $footer; ?>
