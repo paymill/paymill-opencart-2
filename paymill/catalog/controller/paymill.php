@@ -160,7 +160,7 @@ abstract class ControllerPaymentPaymill extends Controller implements
         $table = $this->getDatabaseName();
         
         $payment = null;
-        if ($this->customer->getId() != null) {
+        if ($this->customer->getId() != null && $this->config->get($this->getPaymentName() . '_fast_checkout')) {
             $row = $this->db->query(
                     "SELECT `paymentID` FROM $table WHERE `userId`=" .
                              $this->customer->getId());

@@ -27,9 +27,11 @@ echo '</script>';
 <div class="right">
     <form id='paymill_form' action="<?php echo $paymill_form_action; ?>" method="POST">
         <?php if($paymill_buttonSolution){ ?>
-        <div class="buttons">
-            <input type="submit" class="btn btn-primary paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
-        </div>
+            <fieldset>
+                <div class="buttons">
+                    <input type="submit" class="btn btn-primary paymill_confirm_button" id="paymill_submit" value="<?php echo $button_confirm; ?>">
+                </div>
+            </fieldset>
         <?php } ?>
         <div class='paymill_error warning' style="display: none"></div>
         <div class="debit paymill_relative">
@@ -41,11 +43,11 @@ echo '</script>';
                 <label for="paymill_card_number" class="field-left"><?php echo $paymill_cardnumber;?>*</label>
                 <input id="paymill_card_number" type="text" autocomplete="off" class="field-left" value="<?php echo isset($paymill_prefilled['last4'])? '**********'.$paymill_prefilled['last4']:'';?>"/>
                 <label for="paymill_card_expiry_date" class="field-right"><?php echo $paymill_expirydate;?>*</label>
-                <input id="paymill_card_expiry_date" type="text" autocomplete="off" class="field-right" value="<?php echo isset($paymill_prefilled['expire_date'])? $paymill_prefilled['expire_date']:'MM/YYYY';?>"/>
+                <input id="paymill_card_expiry_date" type="text" autocomplete="off" class="field-right" value="<?php echo isset($paymill_prefilled['expire_date'])? $paymill_prefilled['expire_date']:'';?>"/>
             </fieldset>
             <fieldset>
                 <label for="paymill_card_holder" class="field-left"><?php echo $paymill_cardholder;?>*</label>
-                <input id="paymill_card_holder" type="text" autocomplete="off" class="field-left" value="<?php echo isset($paymill_prefilled['card_holder'])?$paymill_prefilled['card_holder']:$paymill_fullname;?>"/>
+                <input id="paymill_card_holder" type="text" autocomplete="off" class="field-left" value="<?php echo isset($paymill_prefilled['card_holder'])?$paymill_prefilled['card_holder']:'';?>"/>
                 <label for="paymill_card_cvc" class="field-right"><?php echo $paymill_cvc;?>*</label>
                 <input id="paymill_card_cvc" type="text" autocomplete="off" class="field-right" value="<?php echo isset($paymill_prefilled['id'])?'***':'' ?>"/>
             </fieldset>
@@ -85,7 +87,7 @@ echo '</script>';
             </fieldset>
             <fieldset>
                 <label for="paymill_accountholder" class="field-full"><?php echo $paymill_accountholder;?>*</label>
-                <input id="paymill_accountholder" type="text" size="20" autocomplete="off" class="field-full" value="<?php echo isset($paymill_prefilled['holder'])?$paymill_prefilled['holder']:$paymill_fullname; ?>"/>
+                <input id="paymill_accountholder" type="text" size="20" autocomplete="off" class="field-full" value="<?php echo isset($paymill_prefilled['holder'])?$paymill_prefilled['holder']:''; ?>"/>
             </fieldset>
             <p class="description"><?php echo $paymill_description;?></p>
             <?php } ?>
