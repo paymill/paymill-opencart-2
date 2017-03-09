@@ -18,7 +18,11 @@ require_once dirname(dirname(dirname(__FILE__))) . '/metadata.php';
 abstract class ControllerPaymentPaymill extends Controller implements 
         Services_Paymill_LoggingInterface
 {
+<<<<<<< HEAD
+	const PAYMILL_API = 'https://api.paymill.com/v2/';
+=======
     const apiEndpoint = 'https://api.paymill.com/v2/';
+>>>>>>> apiEndpoint_to_const
 
     protected $_logId;
      
@@ -170,7 +174,11 @@ abstract class ControllerPaymentPaymill extends Controller implements
                         $this->config->get(
                                 $this->getPaymentName() . '_privatekey'));
                 $paymentObject = new Services_Paymill_Payments($privateKey, 
+<<<<<<< HEAD
+                        static::PAYMILL_API);
+=======
                         self::apiEndpoint);
+>>>>>>> apiEndpoint_to_const
                 $payment = $paymentObject->getOne($row->row['paymentID']);
             }
         }
@@ -283,7 +291,11 @@ abstract class ControllerPaymentPaymill extends Controller implements
             $paymentProcessor->setToken($paymillToken);
             $paymentProcessor->setAmount((int) $amount);
             $paymentProcessor->setPrivateKey($privateKey);
+<<<<<<< HEAD
+            $paymentProcessor->setApiUrl(static::PAYMILL_API);
+=======
             $paymentProcessor->setApiUrl(self::apiEndpoint);
+>>>>>>> apiEndpoint_to_const
             $paymentProcessor->setCurrency($this->order_info['currency_code']);
             $paymentProcessor->setDescription(
                     substr(
@@ -308,7 +320,11 @@ abstract class ControllerPaymentPaymill extends Controller implements
                     }
                     
                     $clientObject = new Services_Paymill_Clients($privateKey, 
+<<<<<<< HEAD
+                            static::PAYMILL_API);
+=======
                             self::apiEndpoint);
+>>>>>>> apiEndpoint_to_const
                     $client = $clientObject->getOne($row->row['clientId']);
                     $paymentProcessor->setClientId($row->row['clientId']);
                     if (array_key_exists('email', $client)) {
@@ -525,7 +541,11 @@ abstract class ControllerPaymentPaymill extends Controller implements
                             $this->config->get(
                                     $this->getPaymentName() . '_privatekey'));
                     $transactionObject = new Services_Paymill_Transactions(
+<<<<<<< HEAD
+                            $privateKey, static::PAYMILL_API);
+=======
                             $privateKey, self::apiEndpoint);
+>>>>>>> apiEndpoint_to_const
                     $result = $transactionObject->getOne($id);
                     return $result['id'] === $id;
                 }
