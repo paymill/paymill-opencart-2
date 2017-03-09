@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(dirname(__FILE__))) . '/metadata.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Metadata.php';
 require_once dirname(dirname(dirname(__FILE__))) .
          '/lib/Services/Paymill/Webhooks.php';
 
@@ -8,16 +8,14 @@ require_once dirname(dirname(dirname(__FILE__))) .
  * @copyright Copyright (c) 2015 PAYMILL GmbH (http://www.paymill.com)
  */
 abstract class ControllerPaymentPaymill extends Controller
-{   
-    const apiEndpoint = 'https://api.paymill.com/v2/';
-
+{
     abstract protected function getPaymentName ();
 
     private $error = array();
 
     public function getVersion ()
     {
-        $metadata = new metadata();
+        $metadata = new Metadata();
         return $metadata->getVersion();
     }
 
@@ -325,8 +323,7 @@ abstract class ControllerPaymentPaymill extends Controller
 
     protected function addPaymillWebhook ($privateKey)
     {
-        $webhookObject = new Services_Paymill_Webhooks($privateKey, 
-                self::apiEndpoint);
+        $webhookObject = new Services_Paymill_Webhooks($privateKey, Metadata::PAYMILL_API);
         $url = $this->url->link(
                 'extension/payment/' . $this->getPaymentName() .
                          '/webHookEndpoint');
