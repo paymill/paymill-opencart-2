@@ -10,12 +10,11 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) .
 require_once dirname(dirname(dirname(dirname(__FILE__)))) .
          '/paymill/lib/Services/Paymill/PaymentProcessor.php';
 require_once dirname(dirname(dirname(dirname(__FILE__)))) .
-         '/paymill/metadata.php';
+         '/paymill/Metadata.php';
 
-class ControllerCustomPaymillOrder extends Controller implements 
+class ControllerCustomPaymillOrder extends Controller implements
         Services_Paymill_LoggingInterface
 {
-
     /**
      *
      * @var Services_Paymill_PaymentProcessor
@@ -40,11 +39,6 @@ class ControllerCustomPaymillOrder extends Controller implements
      */
     private $paymillRefund;
 
-    /**
-     *
-     * @var string
-     */
-    private $apiEndpoint = 'https://api.paymill.com/v2/';
 
     private $logId;
 
@@ -75,15 +69,15 @@ class ControllerCustomPaymillOrder extends Controller implements
         $this->logId = time();
         $key = $this->config->get('paymillcreditcard_privatekey');
         $this->paymillProcessor = new Services_Paymill_PaymentProcessor($key, 
-                $this->apiEndpoint);
+                Metadata::PAYMILL_API);
         $this->paymillPreauth = new Services_Paymill_Preauthorizations($key, 
-                $this->apiEndpoint);
+                Metadata::PAYMILL_API);
         $this->paymillTransaction = new Services_Paymill_Transactions($key, 
-                $this->apiEndpoint);
+                Metadata::PAYMILL_API);
         $this->paymillRefund = new Services_Paymill_Refunds($key, 
-                $this->apiEndpoint);
+                Metadata::PAYMILL_API);
         
-        $metadata = new metadata();
+        $metadata = new Metadata();
         $source = $metadata->getVersion() . "_opencart_" . VERSION;
         $this->paymillProcessor->setSource($source);
         $this->paymillProcessor->setLogger($this);
@@ -188,8 +182,6 @@ class ControllerCustomPaymillOrder extends Controller implements
         $this->load->model('sale/order');
         $orderId = $this->getPost('orderId', 0);
         $preauth = $this->paymillPreauth->getOne($preauth_id);
-        error_log("\n   hyra  1 " . print_r($preauth, 1), 3, 
-                "/var/tmp/my-errors.log");
         if (is_array($preauth)) {
             $this->paymillProcessor->setAmount($preauth['amount']);
             $this->paymillProcessor->setCurrency($preauth['currency']);
